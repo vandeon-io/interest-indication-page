@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>PortRun — ship infrastructure, not tickets</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="components.jsx"></script>
+<script type="text/babel">
+
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "accent": "#43c07d",
+  "heroLayout": "split",
+  "density": "regular",
+  "background": "grid",
+  "heroVisual": "graph"
+}/*EDITMODE-END*/;
+
+function App() {
+  const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+
+  // Apply accent via CSS custom prop so SVG/CSS both pick it up
+  React.useEffect(() => {
+    document.documentElement.style.setProperty('--accent', t.accent);
+  }, [t.accent]);
+
+  const bgClass = ({
+    grid: 'bg-grid',
+    dots: 'bg-dots',
+    lines: 'bg-lines',
+    plain: 'bg-plain',
+  })[t.background];
+
+  const heroClass = ({
+    split: 'hero hero--split',
+    stacked: 'hero hero--stack',
+    centered: 'hero hero--centered',
+  })[t.heroLayout];
+
+  return (
+    <div className={bgClass}>
+      <div className={`wrap density-${t.density}`} data-screen-label="01 Landing">
+
+        {/* Nav */}
+        <nav className="nav">
+          <div className="nav-brand">
+            <div className="nav-brand-mark">P</div>
+            <span>portrun</span>
+          </div>
+          <div className="nav-status">
+            <span className="nav-status-dot" />
+            <span>closed beta · waitlist open</span>
+          </div>
+        </nav>
+
+        {/* Hero */}
+        <section className={heroClass}>
+          <div className="hero-text">
+            <div className="hero-kicker">
+              <span className="hero-kicker-dot" />
+              <span>v0.1 · shipping Q3 2026</span>
+            </div>
+            <h1 className="hero-h">
+              Ship infrastructure, not <em>tickets</em>.
+            </h1>
+            <p className="hero-sub">
+              Manage every server from one web console. Spin up environments, ship updates, and roll back when something breaks — without juggling SSH, scripts, and provider dashboards. Automation, visibility, and cost controls coming next.
+            </p>
+            <SignupForm accent={t.accent} compact={t.density === 'tight'} />
+          </div>
+
+          <div className="hero-visual">
+            {t.heroVisual === 'terminal'
+              ? <TerminalDemo accent={t.accent} />
+              : <NodeGraph accent={t.accent} />}
+          </div>
+        </section>
+
+        {/* Features */}
+        <FeaturesSection accent={t.accent} />
+
+        {/* Footer */}
+        <footer className="foot">
+          <div className="foot-left">
+            <span>© 2026 portrun.sh</span>
+            <span className="mono-dim">·</span>
+            <span className="mono-dim">built for engineers who’d rather be coding</span>
+          </div>
+          <div className="foot-links">
+            <a href="#">changelog</a>
+            <a href="#">docs</a>
+            <a href="#">github</a>
+            <a href="#">contact</a>
+          </div>
+        </footer>
+      </div>
+
+      {/* Tweaks panel */}
+      <TweaksPanel title="Tweaks">
+        <TweakSection label="Accent" />
+        <TweakColor label="Accent color" value={t.accent}
+                    onChange={(v) => setTweak('accent', v)} />
+        <div className="twk-row">
+          <div className="twk-lbl"><span>Preset</span></div>
+          <div className="chip-row" style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
+            {[
+              { label: 'term green', val: '#43c07d' },
+              { label: 'amber',      val: '#e0a04a' },
+              { label: 'cyan',       val: '#4fb3c4' },
+              { label: 'magenta',    val: '#c060a0' },
+              { label: 'mono',       val: '#0a0a0a' },
+            ].map((p) => (
+              <button key={p.val} type="button"
+                onClick={() => setTweak('accent', p.val)}
+                style={{
+                  fontFamily: 'JetBrains Mono, monospace',
+                  fontSize: 10, padding: '5px 8px',
+                  border: '1px solid rgba(0,0,0,.1)',
+                  background: 'white', color: 'rgba(41,38,27,.72)',
+                  borderRadius: 3, cursor: 'pointer',
+                  display: 'flex', alignItems: 'center', gap: 5,
+                }}>
+                <span style={{ width: 8, height: 8, borderRadius: '50%', background: p.val }} />
+                {p.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <TweakSection label="Layout" />
+        <TweakRadio label="Hero visual" value={t.heroVisual}
+                    options={[
+                      { value: 'graph',    label: 'graph' },
+                      { value: 'terminal', label: 'terminal' },
+                    ]}
+                    onChange={(v) => setTweak('heroVisual', v)} />
+        <TweakRadio label="Hero layout" value={t.heroLayout}
+                    options={[
+                      { value: 'split',    label: 'split' },
+                      { value: 'stacked',  label: 'stack' },
+                      { value: 'centered', label: 'center' },
+                    ]}
+                    onChange={(v) => setTweak('heroLayout', v)} />
+        <TweakRadio label="Density" value={t.density}
+                    options={[
+                      { value: 'tight',   label: 'tight' },
+                      { value: 'regular', label: 'regular' },
+                      { value: 'airy',    label: 'airy' },
+                    ]}
+                    onChange={(v) => setTweak('density', v)} />
+
+        <TweakSection label="Background" />
+        <TweakRadio label="Treatment" value={t.background}
+                    options={[
+                      { value: 'grid',  label: 'grid' },
+                      { value: 'dots',  label: 'dots' },
+                      { value: 'lines', label: 'lines' },
+                      { value: 'plain', label: 'plain' },
+                    ]}
+                    onChange={(v) => setTweak('background', v)} />
+      </TweaksPanel>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
