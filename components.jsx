@@ -315,7 +315,7 @@ const LOOPS_FORM_URL = 'https://app.loops.so/api/newsletter-form/cmoe4inz50z3b0i
 function SignupForm({ accent, compact }) {
   const [step, setStep] = React.useState(0); // 0 = email, 1 = details, 2 = done
   const [f, setF] = React.useState({
-    email: '', role: '', useCase: '',
+    email: '', role: '', useCase: '', telegram: '',
   });
   const [touched, setTouched] = React.useState({});
   const [submitting, setSubmitting] = React.useState(false);
@@ -342,6 +342,7 @@ function SignupForm({ accent, compact }) {
       body.append('email', f.email);
       body.append('userGroup', f.role);
       body.append('useCase', f.useCase);
+      if (f.telegram.trim()) body.append('telegram', f.telegram.trim());
       const res = await fetch(LOOPS_FORM_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -375,7 +376,7 @@ function SignupForm({ accent, compact }) {
           <h3>You're on the list.</h3>
           <p>We'll email <span className="mono">{f.email}</span> when early access opens. No marketing, no spam — just a heads-up and your API key.</p>
           <button type="button" className="btn-ghost"
-                  onClick={() => { setStep(0); setF({email:'',role:'',useCase:''}); setTouched({}); setSubmitErr(''); }}>
+                  onClick={() => { setStep(0); setF({email:'',role:'',useCase:'',telegram:''}); setTouched({}); setSubmitErr(''); }}>
             ← sign up another
           </button>
         </div>
@@ -438,6 +439,14 @@ function SignupForm({ accent, compact }) {
                         onChange={(e) => set('useCase', e.target.value)}
                         onBlur={() => setTouched({ ...touched, useCase: true })}
                         data-invalid={touched.useCase && f.useCase.trim().length < 4 ? '1' : '0'} />
+            </label>
+            <label className="field field--full">
+              <span className="field-lbl">
+                telegram <span className="mono-dim">— optional, for faster updates</span>
+              </span>
+              <input type="text" value={f.telegram}
+                     placeholder="@yourhandle"
+                     onChange={(e) => set('telegram', e.target.value)} />
             </label>
           </div>
           {submitErr && <div className="field-err" style={{ marginTop: 12 }}>{submitErr}</div>}
