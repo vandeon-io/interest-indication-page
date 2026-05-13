@@ -361,6 +361,10 @@ function SignupForm({ accent, compact }) {
   };
 
   if (step === 2) {
+    const rawHandle = f.telegram.trim();
+    const tgDisplay = rawHandle
+      ? (rawHandle.startsWith('@') ? rawHandle : '@' + rawHandle)
+      : '';
     return (
       <div className="signup signup--done">
         <div className="signup-check" style={{ borderColor: accent, color: accent }}>
@@ -374,7 +378,11 @@ function SignupForm({ accent, compact }) {
             <span className="mono-dim">· {new Date().toISOString().slice(0,19).replace('T',' ')}</span>
           </div>
           <h3>You're on the list.</h3>
-          <p>We'll email <span className="mono">{f.email}</span> when early access opens. No marketing, no spam — just a heads-up and your API key.</p>
+          <p>
+            We'll reach out via <span className="mono">{f.email}</span>
+            {tgDisplay ? <> or <span className="mono">{tgDisplay}</span></> : null}
+            {' '}when early access opens. No marketing, no spam — just a heads-up and your API key.
+          </p>
           <button type="button" className="btn-ghost"
                   onClick={() => { setStep(0); setF({email:'',role:'',useCase:'',telegram:''}); setTouched({}); setSubmitErr(''); }}>
             ← sign up another
