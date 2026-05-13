@@ -16,7 +16,7 @@ const DEPLOY_SCRIPT = [
   { t: 4400, kind: 'ok',     text: '✓ api healthy · 2/2 · 214ms' },
   { t: 4800, kind: 'ok',     text: '✓ worker healthy · 1/1 · 89ms' },
   { t: 5100, kind: 'ok',     text: '✓ web healthy · 2/2 · 66ms' },
-  { t: 5700, kind: 'done',   text: 'deploy complete · 00:47 · https://app.portrun.sh' },
+  { t: 5700, kind: 'done',   text: 'deploy complete · 00:47 · https://app.portrun.io' },
 ];
 
 const TOTAL_DURATION = 7200;
@@ -473,32 +473,32 @@ const FEATURES = [
   },
   {
     id: '02',
-    title: 'Deploy from main',
-    body: 'Push to main, PortRun picks up the build, runs your checks, and rolls out to every region in order. Instant rollback if health drifts.',
+    title: 'Smarter deploy decisions',
+    body: 'Make fast, effective release calls — or let PortRun ship for you, with safe fallbacks the moment health drifts.',
     ascii: [
       'main ─●─●─●─●─●─▶ prod',
-      '         │',
-      '         └─▶ staging (auto)',
+      '         ▲',
+      '         └─ guarded',
     ],
   },
   {
     id: '03',
-    title: 'Servers that heal themselves',
-    body: 'Drift detection, reboot-on-crash, image refresh on CVE. Your 2 a.m. pager stays quiet.',
+    title: 'Early signals, not late pages',
+    body: 'Get alerts the moment something needs a decision — with the action to take, ranked by urgency. Catch the slow drift before it turns into a 2 a.m. page.',
     ascii: [
-      '[✓] api-1   healthy  uptime 14d',
-      '[✓] api-2   healthy  uptime 14d',
-      '[↻] worker  healing  (auto)   ',
+      '⚠ disk · api-2 · 87%    → resize',
+      '↑ p95  · worker · +12%  → inspect',
+      'ℹ cert · 14d left       → renew',
     ],
   },
   {
     id: '04',
-    title: 'Cost, decoded',
-    body: 'Per-service spend, idle instance flags, and right-sizing suggestions generated from actual load — not vendor pricing pages.',
+    title: 'Hyperscaler reach, without the bill',
+    body: 'Multi-region rollouts, auto-scaling, edge routing — the capabilities of a hyperscaler stack, at a fraction of the cost and operational tax.',
     ascii: [
-      'api      $142 ██████▌',
-      'worker    $48 ██▏    ',
-      'db       $210 █████████',
+      'hyperscaler  $$$$ ████████',
+      'portrun      $    █▏      ',
+      'parity   ● ● ● ● ● ● ● ●  ',
     ],
   },
   {
@@ -509,16 +509,6 @@ const FEATURES = [
       'p50  32ms  ▁▂▂▁▂▃▂▁▂',
       'p95  118ms ▂▃▅▃▂▄▆▃▂',
       'err  0.04% ▁▁▁▁▂▁▁▁▁',
-    ],
-  },
-  {
-    id: '06',
-    title: 'GitOps, without the ceremony',
-    body: 'Infra lives beside your code. Review infra changes in PRs. Merge to apply. Revert to roll back. That\u2019s it.',
-    ascii: [
-      'PR #412  infra/api.yaml',
-      '+ replicas: 4',
-      '- replicas: 2',
     ],
   },
 ];

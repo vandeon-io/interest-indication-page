@@ -545,6 +545,11 @@ button { font-family: inherit; }
   display: flex; flex-direction: column;
   min-height: 340px;
 }
+/* When there are 5 features (3-col grid), let the 5th span 2 cols
+   so the second row doesn't leave a dead cell. */
+.feat-grid > .feat:nth-child(5):last-child {
+  grid-column: span 2;
+}
 .feat-head {
   display: flex; align-items: center; gap: 12px;
   margin-bottom: 20px;
@@ -618,10 +623,74 @@ button { font-family: inherit; }
 
 /* ── Responsive ────────────────────────────────────────────────────────── */
 
+/* Tablet & narrow desktop */
 @media (max-width: 900px) {
   .hero--split { grid-template-columns: 1fr; gap: 48px; }
   .feat-grid { grid-template-columns: 1fr; }
   .field-grid { grid-template-columns: 1fr; }
   :root { --pad: 72px; }
   .wrap { padding: 0 20px; }
+  .hero { padding: 56px 0 var(--pad); }
+  .hero--stack .hero-visual,
+  .hero--centered .hero-visual { margin-top: 40px; }
+}
+
+/* Phone */
+@media (max-width: 640px) {
+  :root { --pad: 56px; }
+  .wrap { padding: 0 16px; }
+
+  /* Nav: shrink status, stop it crowding the brand */
+  .nav { padding-top: 20px; font-size: 12px; }
+  .nav-status { font-size: 11px; }
+
+  /* Hero */
+  .hero { padding: 40px 0 var(--pad); }
+  .hero-h { margin: 20px 0 18px; line-height: 1.02; }
+  .hero-sub { font-size: 16px; margin-bottom: 28px; }
+  .hero-kicker { font-size: 11px; padding: 5px 10px; }
+  .hero--stack .hero-visual,
+  .hero--centered .hero-visual,
+  .hero--split .hero-visual { margin-top: 32px; }
+
+  /* Signup — stack the inline email + button so the button is tappable */
+  .signup-head { padding: 10px 14px; font-size: 11px; }
+  .signup-body { padding: 16px 14px; }
+  .signup--done { flex-direction: column; padding: 22px; gap: 16px; }
+  .field--inline { flex-direction: column; align-items: stretch; gap: 10px; }
+  .field--inline input,
+  .field--inline .btn-primary { width: 100%; flex: none; }
+  .field--inline .btn-primary { padding: 14px 20px; }
+  .signup-actions { gap: 10px; }
+  .signup-actions .btn-primary,
+  .signup-actions .btn-ghost { padding: 12px 16px; }
+
+  /* Section heads */
+  .sect-head { margin-bottom: 40px; gap: 14px; }
+  .features { padding: var(--pad) 0; }
+
+  /* Feature cards: looser min-height, smaller ASCII so it fits */
+  .feat { padding: 26px 22px; min-height: 0; }
+  .feat-title { font-size: 20px; }
+  .feat-body { font-size: 14.5px; margin-bottom: 20px; }
+  .feat-ascii { font-size: 10.5px; padding: 12px; }
+
+  /* Console / terminal: shrink chrome + body so the visual reads on small screens */
+  .term { font-size: 12px; }
+  .term-body { padding: 16px 16px 36px; min-height: 280px; }
+  .console-tab { padding: 10px 10px; font-size: 10px; }
+  .console-meta { font-size: 10px; }
+
+  /* Footer: stack, hide the tagline middle bit to avoid awkward wraps */
+  .foot { padding: 32px 0 40px; flex-direction: column; align-items: flex-start; gap: 14px; }
+  .foot-left { flex-wrap: wrap; gap: 10px; }
+  .foot-left .mono-dim:nth-of-type(2) { display: none; }
+  .foot-links { gap: 16px; flex-wrap: wrap; }
+}
+
+/* Very narrow phones */
+@media (max-width: 380px) {
+  .nav-status span:last-child { display: none; }
+  .hero-h { font-size: 38px; }
+  .feat-ascii { font-size: 9.5px; }
 }
