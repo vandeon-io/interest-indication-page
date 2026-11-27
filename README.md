@@ -1,6 +1,6 @@
-# PortRun — Interest Indication Page
+# Vandeon — Interest Indication Page
 
-Static landing page for the PortRun waitlist. No build step — open `index.html` directly or deploy as static files.
+Static landing page for the Vandeon waitlist. No build step — open `index.html` directly or deploy as static files.
 
 ## Stack
 - Plain HTML + CSS

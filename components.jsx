@@ -1,10 +1,10 @@
-// components.jsx — PortRun landing page components
+// components.jsx — Vandeon landing page components
 
 // ── Terminal animation ──────────────────────────────────────────────────────
 // A self-driving CLI that cycles through the deploy sequence.
 
 const DEPLOY_SCRIPT = [
-  { t: 0,    kind: 'prompt', text: 'portrun deploy --env production' },
+  { t: 0,    kind: 'prompt', text: 'vandeon deploy --env production' },
   { t: 700,  kind: 'info',   text: '→ resolving infrastructure manifest' },
   { t: 1100, kind: 'ok',     text: '  manifest.yaml · 3 services · 2 regions' },
   { t: 1700, kind: 'info',   text: '→ provisioning servers · region us-east' },
@@ -16,7 +16,7 @@ const DEPLOY_SCRIPT = [
   { t: 4400, kind: 'ok',     text: '✓ api healthy · 2/2 · 214ms' },
   { t: 4800, kind: 'ok',     text: '✓ worker healthy · 1/1 · 89ms' },
   { t: 5100, kind: 'ok',     text: '✓ web healthy · 2/2 · 66ms' },
-  { t: 5700, kind: 'done',   text: 'deploy complete · 00:47 · https://app.portrun.io' },
+  { t: 5700, kind: 'done',   text: 'deploy complete · 00:47 · https://app.vandeon.io' },
 ];
 
 const TOTAL_DURATION = 7200;
@@ -57,7 +57,7 @@ function TerminalDemo({ accent }) {
         <div className="term-dots">
           <span /><span /><span />
         </div>
-        <div className="term-title">~/portrun · zsh</div>
+        <div className="term-title">~/vandeon · zsh</div>
         <div className="term-clock">
           <span className="term-clock-dot" style={{ background: accent }} /> {elapsedSec}s
         </div>
@@ -95,7 +95,7 @@ function NodeGraph({ accent }) {
   // Layout: source (left) → orchestrator (mid) → 3 provider groups (right)
   // Each provider group contains 2 server nodes so the graph reads as a real fleet.
   const SRC = { x: 70,  y: 220, label: 'git · main' };
-  const ORC = { x: 260, y: 220, label: 'portrun' };
+  const ORC = { x: 260, y: 220, label: 'vandeon' };
   const providers = [
     { id: 'do',   x: 500, y: 96,  name: 'cluster a', region: 'us-east',
       servers: [
@@ -279,7 +279,7 @@ function NodeGraph({ accent }) {
         {/* Corner labels */}
         <text x="20" y="26" fontSize="9" fontFamily="'JetBrains Mono', monospace"
               fill="rgba(255,255,255,0.35)" letterSpacing="0.15em">
-          PORTRUN › FLEET
+          VANDEON › FLEET
         </text>
         <text x="600" y="26" fontSize="9" fontFamily="'JetBrains Mono', monospace"
               fill="rgba(255,255,255,0.35)" letterSpacing="0.15em" textAnchor="end">
@@ -395,7 +395,7 @@ function SignupForm({ accent, compact }) {
   return (
     <div className="signup">
       <div className="signup-head">
-        <span className="mono-label">$ portrun waitlist</span>
+        <span className="mono-label">$ vandeon waitlist</span>
         <span className="mono-dim">step {step + 1}/2</span>
       </div>
 
@@ -480,7 +480,7 @@ const FEATURES = [
   {
     id: '01',
     title: 'One console for every server',
-    body: 'Wire up your servers once. PortRun gives you a single, consistent place to provision, deploy, and watch them — no console-hopping, no shell scripts pinned to a wiki.',
+    body: 'Wire up your servers once. Vandeon gives you a single, consistent place to provision, deploy, and watch them — no console-hopping, no shell scripts pinned to a wiki.',
     ascii: [
       '┌─ fleet ────────────────────────────────┐',
       '│ cluster-a   cluster-b   cluster-c │',
@@ -491,7 +491,7 @@ const FEATURES = [
   {
     id: '02',
     title: 'Smarter deploy decisions',
-    body: 'Make fast, effective release calls — or let PortRun ship for you, with safe fallbacks the moment health drifts.',
+    body: 'Make fast, effective release calls — or let Vandeon ship for you, with safe fallbacks the moment health drifts.',
     ascii: [
       'main ─●─●─●─●─●─▶ prod',
       '         ▲',
@@ -514,7 +514,7 @@ const FEATURES = [
     body: 'Multi-region rollouts, auto-scaling, edge routing — the capabilities of a hyperscaler stack, at a fraction of the cost and operational tax.',
     ascii: [
       'hyperscaler  $$$$ ████████',
-      'portrun      $    █▏      ',
+      'vandeon      $    █▏      ',
       'parity   ● ● ● ● ● ● ● ●  ',
     ],
   },
