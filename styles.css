@@ -98,18 +98,14 @@ button { font-family: inherit; }
   display: flex; align-items: center; gap: 10px;
   font-weight: 600; letter-spacing: -0.01em;
 }
+/* 22px box + faint outer ring; the -4px margin keeps the ring out of layout */
 .nav-brand-mark {
-  width: 22px; height: 22px;
-  border: 1px solid var(--fg);
-  display: grid; place-items: center;
-  font-size: 11px; font-weight: 700;
-  position: relative;
+  width: 30px; height: 30px;
+  margin: -4px;
+  flex: none;
+  color: var(--fg);
 }
-.nav-brand-mark::after {
-  content: ''; position: absolute;
-  inset: -4px; border: 1px solid var(--fg-dimmer);
-  opacity: 0.4;
-}
+.nav-brand-node { fill: var(--accent); }
 .nav-status {
   display: flex; align-items: center; gap: 8px;
   color: var(--fg-dim);
